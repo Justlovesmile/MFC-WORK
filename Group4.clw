@@ -38,7 +38,7 @@ ImplementationFile=Group4View.cpp
 Filter=C
 BaseClass=CView
 VirtualFilter=VWC
-LastObject=CGroup4View
+LastObject=IDD_makeFiveStar
 
 
 [CLS:CMainFrame]
@@ -46,7 +46,7 @@ Type=0
 HeaderFile=MainFrm.h
 ImplementationFile=MainFrm.cpp
 Filter=T
-LastObject=ID_FILE_OPEN
+LastObject=CMainFrame
 BaseClass=CFrameWnd
 VirtualFilter=fWC
 
@@ -133,5 +133,7 @@ Command13=IDD_makeArrowUp
 Command14=IDD_makeArrawLeft
 Command15=IDD_CLEAR
 Command16=IDD_ChangeColor
-CommandCount=16
+Command17=IDD_BackPrev
+Command18=IDD_makeFiveStar
+CommandCount=18
 

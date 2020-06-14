@@ -101,6 +101,8 @@ BEGIN
     BUTTON      IDD_makeArrawLeft
     BUTTON      IDD_CLEAR
     BUTTON      IDD_ChangeColor
+    BUTTON      IDD_BackPrev
+    BUTTON      IDD_makeFiveStar
 END
 
 

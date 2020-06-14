@@ -23,7 +23,20 @@ public:
 
 // Operations
 public:
-
+	void DoubleBuffer(CDC* pDC);
+	void DrawPoint(CGroup4Doc* pdoc,CDC* pdc,CPoint pEnd);
+	void DrawLine(CGroup4Doc* pdoc,CDC* pdc,CPoint pStart,CPoint pEnd);
+	void DrawTriangle(CGroup4Doc* pdoc,CDC* pdc,CPoint pStart,CPoint pEnd);
+	void DrawRectangle(CGroup4Doc* pdoc,CDC* pdc,CPoint pStart,CPoint pEnd);
+	void DrawEllipse(CGroup4Doc* pdoc,CDC* pdc,CPoint pStart,CPoint pEnd);
+	void DrawBlackjx(CGroup4Doc* pdoc,CDC* pdc,CPoint pStart,CPoint pEnd);
+	void DrawCircle(CGroup4Doc* pdoc,CDC* pdc,CPoint pStart,CPoint pEnd);
+	void DrawRightTriangle(CGroup4Doc* pdoc,CDC* pdc,CPoint pStart,CPoint pEnd);
+	void DrawArrawLeft(CGroup4Doc* pdoc,CDC* pdc,CPoint pStart,CPoint pEnd);
+	void DrawArrowUp(CGroup4Doc* pdoc,CDC* pdc,CPoint pStart,CPoint pEnd);
+	void Drawblackcircle(CGroup4Doc* pdoc,CDC* pdc,CPoint pStart,CPoint pEnd);
+	void Drawfivestar(CGroup4Doc* pdoc,CDC* pdc,CPoint pStart,CPoint pEnd);
+	void ReDrawObject();
 // Overrides
 	// ClassWizard generated virtual function overrides
 	//{{AFX_VIRTUAL(CGroup4View)
@@ -67,6 +80,8 @@ protected:
 	afx_msg void OnmakeArrowUp();
 	afx_msg void Onmakeblackcircle();
 	afx_msg void OnChangeColor();
+	afx_msg void OnBackPrev();
+	afx_msg void OnmakeFiveStar();
 	//}}AFX_MSG
 	DECLARE_MESSAGE_MAP()
 };

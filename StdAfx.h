@@ -18,6 +18,16 @@
 #include <afxdtctl.h>		// MFC support for Internet Explorer 4 Common Controls
 #ifndef _AFX_NO_AFXCMN_SUPPORT
 #include <afxcmn.h>			// MFC support for Windows Common Controls
+#include   <afxtempl.h>
+struct ListPoint
+{
+	CPoint pStart;
+	CPoint pEnd;
+	int dstyle;//图形类型
+	int type;//画笔
+	int width;//笔宽
+	int color;//颜色
+};
 #endif // _AFX_NO_AFXCMN_SUPPORT
 
 

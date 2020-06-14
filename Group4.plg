@@ -6,13 +6,13 @@
 --------------------Configuration: Group4 - Win32 Debug--------------------
 </h3>
 <h3>Command Lines</h3>
-Creating temporary file "C:\Users\xqh\AppData\Local\Temp\RSP14E0.tmp" with contents
+Creating temporary file "C:\Users\xqh\AppData\Local\Temp\RSPDCA3.tmp" with contents
 [
-/nologo /MDd /W3 /Gm /GX /ZI /Od /D "WIN32" /D "_DEBUG" /D "_WINDOWS" /D "_AFXDLL" /D "_MBCS" /Fp"Debug/Group4.pch" /Yu"stdafx.h" /Fo"Debug/" /Fd"Debug/" /FD /GZ /c 
-"C:\Users\xqh\Desktop\MFC-Group4\Group4View.cpp"
+/nologo /MDd /W3 /Gm /GX /ZI /Od /D "WIN32" /D "_DEBUG" /D "_WINDOWS" /D "_AFXDLL" /D "_MBCS" /FR"Debug/" /Fp"Debug/Group4.pch" /Yu"stdafx.h" /Fo"Debug/" /Fd"Debug/" /FD /GZ /c 
+"E:\Git\MFC-WORK\Group4View.cpp"
 ]
-Creating command line "cl.exe @C:\Users\xqh\AppData\Local\Temp\RSP14E0.tmp" 
-Creating temporary file "C:\Users\xqh\AppData\Local\Temp\RSP14F0.tmp" with contents
+Creating command line "cl.exe @C:\Users\xqh\AppData\Local\Temp\RSPDCA3.tmp" 
+Creating temporary file "C:\Users\xqh\AppData\Local\Temp\RSPDCA4.tmp" with contents
 [
 /nologo /subsystem:windows /incremental:yes /pdb:"Debug/Group4.pdb" /debug /machine:I386 /out:"Debug/Group4.exe" /pdbtype:sept 
 ".\Debug\Group4.obj"
@@ -24,11 +24,14 @@ Creating temporary file "C:\Users\xqh\AppData\Local\Temp\RSP14F0.tmp" with conte
 ".\Debug\Transform .obj"
 ".\Debug\Group4.res"
 ]
-Creating command line "link.exe @C:\Users\xqh\AppData\Local\Temp\RSP14F0.tmp"
+Creating command line "link.exe @C:\Users\xqh\AppData\Local\Temp\RSPDCA4.tmp"
 <h3>Output Window</h3>
 Compiling...
 Group4View.cpp
 Linking...
+Creating command line "bscmake.exe /nologo /o"Debug/Group4.bsc"  ".\Debug\StdAfx.sbr" ".\Debug\Group4.sbr" ".\Debug\Group4Doc.sbr" ".\Debug\Group4View.sbr" ".\Debug\MainFrm.sbr" ".\Debug\P2.sbr" ".\Debug\Transform .sbr""
+Creating browse info file...
+<h3>Output Window</h3>
 
 
 

@@ -4,7 +4,6 @@
 
 #if !defined(AFX_GROUP4DOC_H__A6EB7097_CD2E_4102_A652_61579ED392AE__INCLUDED_)
 #define AFX_GROUP4DOC_H__A6EB7097_CD2E_4102_A652_61579ED392AE__INCLUDED_
-
 #if _MSC_VER > 1000
 #pragma once
 #endif // _MSC_VER > 1000
@@ -18,7 +17,7 @@ protected: // create from serialization only
 
 // Attributes
 public:
-
+	CList <ListPoint,ListPoint> Mylist;
 // Operations
 public:
 	int thickness;

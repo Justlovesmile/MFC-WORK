@@ -55,14 +55,33 @@ BOOL CGroup4Doc::OnNewDocument()
 
 void CGroup4Doc::Serialize(CArchive& ar)
 {
-	if (ar.IsStoring())
-	{
-		// TODO: add storing code here
-	}
-	else
-	{
-		// TODO: add loading code here
-	}
+	int i;
+    if (ar.IsStoring())//保存
+    {
+        // TODO: 在此添加存储代码
+        ar<<Mylist.GetCount();
+        ListPoint lp;
+        POSITION pos = Mylist.GetHeadPosition();
+        for(i = 0; i<Mylist.GetCount(); i++)
+        {
+            lp = Mylist.GetNext(pos);
+            ar<<lp.type<<lp.width<<lp.color<<lp.pStart<<lp.pEnd<<lp.dstyle;
+        }
+
+    }
+    else//读取
+    {
+        // TODO: 在此添加加载代码
+        int count;
+        ar>>count;
+        ListPoint lp;
+        POSITION pos = Mylist.GetHeadPosition();
+        for(i = 0; i<count; i++)
+        {
+            ar<<lp.type<<lp.width<<lp.color<<lp.pStart<<lp.pEnd<<lp.dstyle;
+            Mylist.AddTail(lp);
+        }
+    }
 }
 
 /////////////////////////////////////////////////////////////////////////////

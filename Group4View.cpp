@@ -40,6 +40,8 @@ BEGIN_MESSAGE_MAP(CGroup4View, CView)
 	ON_COMMAND(IDD_makeArrowUp, OnmakeArrowUp)
 	ON_COMMAND(IDD_makeblackcircle, Onmakeblackcircle)
 	ON_COMMAND(IDD_ChangeColor, OnChangeColor)
+	ON_COMMAND(IDD_BackPrev, OnBackPrev)
+	ON_COMMAND(IDD_makeFiveStar, OnmakeFiveStar)
 	//}}AFX_MSG_MAP
 	// Standard printing commands
 	ON_COMMAND(ID_FILE_PRINT, CView::OnFilePrint)
@@ -130,6 +132,112 @@ CGroup4Doc* CGroup4View::GetDocument() // non-debug version is inline
 /////////////////////////////////////////////////////////////////////////////
 // CGroup4View message handlers
 
+//双缓冲
+void CGroup4View::DoubleBuffer(CDC* pDC)
+{
+	CRect rect;//定义客户区矩形
+	GetClientRect(&rect);//获得客户区的大小
+	pDC->SetMapMode(MM_ANISOTROPIC);//pDC自定义坐标系
+	pDC->SetWindowExt(rect.Width(), rect.Height());//设置窗口范围
+	pDC->SetViewportExt(rect.Width(), -rect.Height());//设置视区范围,x轴水平向右，y轴垂直向上
+	pDC->SetViewportOrg(rect.Width() / 2, rect.Height() / 2);//客户区中心为原点
+	CDC memDC;//内存DC
+	memDC.CreateCompatibleDC(pDC);//创建一个与显示pDC兼容的内存memDC
+	CBitmap NewBitmap, *pOldBitmap;//内存中承载的临时位图 
+	NewBitmap.CreateCompatibleBitmap(pDC, rect.Width(), rect.Height());//创建兼容位图 
+	pOldBitmap = memDC.SelectObject(&NewBitmap);//将兼容位图选入memDC 
+	memDC.FillSolidRect(rect,pDC->GetBkColor());//按原来背景填充客户区，否则是黑色
+	memDC.SetMapMode(MM_ANISOTROPIC);//memDC自定义坐标系
+	memDC.SetWindowExt(rect.Width(), rect.Height());
+	memDC.SetViewportExt(rect.Width(), -rect.Height());
+	memDC.SetViewportOrg(rect.Width() / 2, rect.Height() / 2);
+	rect.OffsetRect(-rect.Width() / 2, -rect.Height() / 2);
+	//DrawObject(&memDC);//向memDC绘制图形
+	pDC->BitBlt(rect.left, rect.top, rect.Width(), rect.Height(), &memDC, -rect.Width() / 2, -rect.Height() / 2, SRCCOPY);//将内存memDC中的位图拷贝到显示pDC中
+	memDC.SelectObject(pOldBitmap);//恢复位图
+	NewBitmap.DeleteObject();//删除位图
+}
+//重绘
+void CGroup4View::ReDrawObject()
+{
+	CDC* pdc=GetDC();
+	CGroup4Doc* pdoc = GetDocument();
+    pdc=new CClientDC(this);
+    ASSERT_VALID(pdoc);
+    if (!pdoc)
+        return;
+	RedrawWindow();
+	cclick=false;
+    ListPoint g;
+	int dstyle;
+    POSITION pos = pdoc->Mylist.GetHeadPosition();
+    for(int i = 0; i<pdoc -> Mylist.GetCount(); i++)
+    {
+        g = pdoc -> Mylist.GetNext(pos);
+        CPen pen(g.type,g.width,g.color);
+		dstyle=g.dstyle;
+		pStart=g.pStart;
+		pEnd=g.pEnd;
+		pdc->SelectObject(pen);
+		pdc->SetROP2(R2_COPYPEN);//当前颜色覆盖背景颜色
+	    if(dstyle==1)
+	    {//点
+			DrawPoint(pdoc,pdc,pEnd);
+	    }
+	    else if(dstyle==2)
+	    {//线
+			DrawLine(pdoc,pdc,pStart,pEnd);
+	    }
+	    else if(dstyle==3)
+	    {//等腰三角
+			DrawTriangle(pdoc,pdc,pStart,pEnd);
+	    }
+		else if(dstyle==4)
+	    {//矩形
+			DrawRectangle(pdoc,pdc,pStart,pEnd);
+	    }
+	    else if(dstyle==5)
+	    {//椭圆
+			DrawEllipse(pdoc,pdc,pStart,pEnd);
+	    }
+	   else if(dstyle==6)
+	    {//填充矩形
+	        DrawBlackjx(pdoc,pdc,pStart,pEnd);
+	    }
+	   else if(dstyle==7)
+	    {//画圆形
+		   	DrawCircle(pdoc,pdc,pStart,pEnd);
+	    }
+	   else if(dstyle==8)
+	    {//直角三角形
+			DrawRightTriangle(pdoc,pdc,pStart,pEnd);
+	    }
+		else if(dstyle==10)
+		{//左箭头
+			DrawArrawLeft(pdoc,pdc,pStart,pEnd);
+		}
+		else if(dstyle==11)
+		{//上箭头
+			DrawArrowUp(pdoc,pdc,pStart,pEnd);
+		}
+		else if(dstyle==12)
+		{//实心圆
+			Drawblackcircle(pdoc,pdc,pStart,pEnd);
+		}
+	}
+	dstyle=0;
+	cclick=false;
+	ReleaseDC(pdc);
+}
+
+//回退
+void CGroup4View::OnBackPrev() 
+{
+	// TODO: Add your command handler code here
+	CGroup4Doc* pDoc = GetDocument();
+	pDoc->Mylist.RemoveTail();
+	ReDrawObject();
+}
 
 //清屏
 void CGroup4View::OnClear() 
@@ -138,52 +246,52 @@ void CGroup4View::OnClear()
 	cclick=false;
 	dstyle=0;
 }
-//画点
+//点
 void CGroup4View::Onmakepoint() 
 {
 	//MessageBox("按下鼠标左键选点","提示");
 	cclick=false;
 	dstyle=1;
 }
-//画线
+//直线
 void CGroup4View::Onmakeline()
 {
 	//MessageBox("按下鼠标左键画线","提示");
 	cclick=false;
 	dstyle=2;
 }
-//画等腰三角形
+//等腰三角形
 void CGroup4View::Onmaketriangle() 
 {
 	cclick=false;
 	dstyle=3;
 }
-//画矩形
+//矩形
 void CGroup4View::Onmakerectangle() 
 {
 	cclick=false;
 	dstyle=4;
 }
-//画椭圆
+//椭圆
 void CGroup4View::Onmakeellipse() 
 {
 	cclick=false;
 	dstyle=5;
 }
-//画填充矩形
+//填充矩形
 void CGroup4View::Onmakeblackjx() 
 {
 	cclick=false;
 	dstyle=6;
 }
-//画圆形
+//圆形
 void CGroup4View::Onmakecircle() 
 {
 	cclick=false;
 	dstyle=7;
 	
 }
-//画直角三角形
+//直角三角形
 void CGroup4View::OnmakeRightTriangle() 
 {
 	cclick=false;
@@ -213,6 +321,12 @@ void CGroup4View::Onmakeblackcircle()
 	cclick=false;
 	dstyle=12;
 }
+//五角星
+void CGroup4View::OnmakeFiveStar() 
+{
+	cclick=false;
+	dstyle=13;
+}
 /*
 1 画点
 2 画线
@@ -226,12 +340,121 @@ void CGroup4View::Onmakeblackcircle()
 10.左箭头
 11.上箭头
 12.实心圆
+13.五角星
+14.
+15.
+16.
+17.移动
+18.
 */
+//画点
+void CGroup4View::DrawPoint(CGroup4Doc* pdoc,CDC* pdc,CPoint pEnd) 
+{
+		CBrush bsh(pdoc->color);
+        pdc->SelectObject(&bsh);
+		pdc->Ellipse(pEnd.x,pEnd.y,pEnd.x+5,pEnd.y+5);
+		bsh.DeleteObject();
+}
+//画线
+void CGroup4View::DrawLine(CGroup4Doc* pdoc,CDC* pdc,CPoint pStart,CPoint pEnd)
+{
+		pdc->MoveTo(pStart.x,pStart.y);
+		pdc->LineTo(pEnd.x,pEnd.y);
+}
+//画等腰三角形
+void CGroup4View::DrawTriangle(CGroup4Doc* pdoc,CDC* pdc,CPoint pStart,CPoint pEnd) 
+{
+		pdc->MoveTo((pStart.x+pEnd.x)/2,pStart.y);
+		pdc->LineTo(pStart.x,pEnd.y);
+		pdc->LineTo(pEnd.x,pEnd.y);
+		pdc->LineTo((pStart.x+pEnd.x)/2,pStart.y);
+}
+//画矩形
+void CGroup4View::DrawRectangle(CGroup4Doc* pdoc,CDC* pdc,CPoint pStart,CPoint pEnd) 
+{
+		CBrush *pBrush=CBrush::FromHandle((HBRUSH)GetStockObject(NULL_BRUSH));
+		CBrush *pOldBrush =pdc->SelectObject(pBrush);
+		pdc->Rectangle(pStart.x,pStart.y,pEnd.x,pEnd.y);
+}
+//画椭圆
+void CGroup4View::DrawEllipse(CGroup4Doc* pdoc,CDC* pdc,CPoint pStart,CPoint pEnd) 
+{
+		CBrush *pBrush=CBrush::FromHandle((HBRUSH)GetStockObject(NULL_BRUSH));
+		CBrush *pOldBrush =pdc->SelectObject(pBrush);
+		pdc->Ellipse(pStart.x,pStart.y,pEnd.x,pEnd.y);
+}
+//画填充矩形
+void CGroup4View::DrawBlackjx(CGroup4Doc* pdoc,CDC* pdc,CPoint pStart,CPoint pEnd) 
+{
+        CBrush bsh(pdoc->color);
+        pdc->SelectObject(&bsh);
+		pdc->Rectangle(pStart.x,pStart.y,pEnd.x,pEnd.y);
+		bsh.DeleteObject();
+}
+//画圆形
+void CGroup4View::DrawCircle(CGroup4Doc* pdoc,CDC* pdc,CPoint pStart,CPoint pEnd) 
+{
+		float r1 = (float)((pEnd.x-pStart.x)*(pEnd.x-pStart.x) + (pEnd.y-pStart.y)*(pEnd.y-pStart.y));
+		int r = int(sqrt(r1));//半径
+		CBrush *bsh=CBrush::FromHandle((HBRUSH)GetStockObject(NULL_BRUSH));
+		pdc->SelectObject(bsh);
+		pdc->Ellipse(pStart.x-r,pStart.y-r,pStart.x+r,pStart.y+r);
+}
+//画直角三角形
+void CGroup4View::DrawRightTriangle(CGroup4Doc* pdoc,CDC* pdc,CPoint pStart,CPoint pEnd) 
+{
+		pdc->MoveTo(pStart.x,pStart.y);
+		pdc->LineTo(pEnd.x,pEnd.y);
+		pdc->LineTo(pStart.x,pEnd.y);
+		pdc->LineTo(pStart.x,pStart.y);
+}
+//画左箭头
+void CGroup4View::DrawArrawLeft(CGroup4Doc* pdoc,CDC* pdc,CPoint pStart,CPoint pEnd) 
+{
+		int dy=int(pStart.y-pEnd.y);
+		int dx=int(pEnd.x-pStart.x);
+		pdc->MoveTo(pStart.x,int(pStart.y-dy/2));
+		pdc->LineTo(int(pStart.x+dx/2),pStart.y);
+		pdc->LineTo(int(pStart.x+dx/2),int(pStart.y-dy/4));
+		pdc->LineTo(pEnd.x,int(pStart.y-dy/4));
+		pdc->LineTo(pEnd.x,int(pStart.y-3*dy/4));
+		pdc->LineTo(int(pStart.x+dx/2),int(pStart.y-3*dy/4));
+		pdc->LineTo(int(pStart.x+dx/2),pEnd.y);
+		pdc->LineTo(pStart.x,int(pStart.y-dy/2));
+}
+//画上箭头
+void CGroup4View::DrawArrowUp(CGroup4Doc* pdoc,CDC* pdc,CPoint pStart,CPoint pEnd) 
+{
+		int dy0=int(pStart.y-pEnd.y);
+		int dx0=int(pEnd.x-pStart.x);
+		pdc->MoveTo(pStart.x,int(pStart.y-dy0/2));
+		pdc->LineTo(int(pStart.x+dx0/2),pStart.y);
+		pdc->LineTo(pEnd.x,int(pStart.y-dy0/2));
+		pdc->LineTo(int(pStart.x+3*dx0/4),int(pStart.y-dy0/2));
+		pdc->LineTo(int(pStart.x+3*dx0/4),pEnd.y);
+		pdc->LineTo(int(pStart.x+dx0/4),pEnd.y);
+		pdc->LineTo(int(pStart.x+dx0/4),int(pStart.y-dy0/2));
+		pdc->LineTo(pStart.x,int(pStart.y-dy0/2));
+}
+//画实心圆
+void CGroup4View::Drawblackcircle(CGroup4Doc* pdoc,CDC* pdc,CPoint pStart,CPoint pEnd) 
+{
+		float r1 = (float)((pEnd.x-pStart.x)*(pEnd.x-pStart.x) + (pEnd.y-pStart.y)*(pEnd.y-pStart.y));
+		int r = int(sqrt(r1));//半径
+        CBrush bsh(pdoc->color);
+        pdc->SelectObject(&bsh);
+		pdc->Ellipse(pStart.x-r,pStart.y-r,pStart.x+r,pStart.y+r);
+		bsh.DeleteObject();
+}
+//画五角星
+void CGroup4View::Drawfivestar(CGroup4Doc* pdoc,CDC* pdc,CPoint pStart,CPoint pEnd) 
+{
+}
+
 void CGroup4View::OnLButtonDown(UINT nFlags, CPoint point)
 {//鼠标左键按下
 
 	CDC* pdc=GetDC();
-	// TODO: Add your message handler code here and/or call default
 	pStart=pEnd=point;
 	pdc=new CClientDC(this);
 	cclick=true;
@@ -240,7 +463,6 @@ void CGroup4View::OnLButtonDown(UINT nFlags, CPoint point)
 
 void CGroup4View::OnMouseMove(UINT nFlags, CPoint point) 
 {//鼠标移动
-	// TODO: Add your message handler code here and/or call default
 	CString str1; 
 	str1.Format (_T("x=%d,y=%d  "),point.x,point.y); 
 	((CMainFrame *)GetParent())->SetMessageText(str1); 
@@ -259,72 +481,45 @@ void CGroup4View::OnMouseMove(UINT nFlags, CPoint point)
     }
     else if(dstyle==2)
     {//线
-		pdc->MoveTo(pStart.x,pStart.y);
-		pdc->LineTo(pEnd.x,pEnd.y);
+		DrawLine(pdoc,pdc,pStart,pEnd);
         pEnd = point;
-        pdc->MoveTo(pStart.x,pStart.y);
-		pdc->LineTo(pEnd.x,pEnd.y);
+        DrawLine(pdoc,pdc,pStart,pEnd);
     }
     else if(dstyle==3)
     {//等腰三角形
-		pdc->MoveTo((pStart.x+pEnd.x)/2,pStart.y);
-		pdc->LineTo(pStart.x,pEnd.y);
-		pdc->LineTo(pEnd.x,pEnd.y);
-		pdc->LineTo((pStart.x+pEnd.x)/2,pStart.y);
+		DrawTriangle(pdoc,pdc,pStart,pEnd);
         pEnd = point;
-        pdc->MoveTo((pStart.x+pEnd.x)/2,pStart.y);
-		pdc->LineTo(pStart.x,pEnd.y);
-		pdc->LineTo(pEnd.x,pEnd.y);
-		pdc->LineTo((pStart.x+pEnd.x)/2,pStart.y);
+		DrawTriangle(pdoc,pdc,pStart,pEnd);
     }
     else if(dstyle==4)
     {//矩形
-		CBrush *pBrush=CBrush::FromHandle((HBRUSH)GetStockObject(NULL_BRUSH));
-		CBrush *pOldBrush =pdc->SelectObject(pBrush);
-		pdc->Rectangle(pStart.x,pStart.y,pEnd.x,pEnd.y);
+		DrawRectangle(pdoc,pdc,pStart,pEnd);
         pEnd = point;
-        pdc->Rectangle(pStart.x,pStart.y,pEnd.x,pEnd.y);
+		DrawRectangle(pdoc,pdc,pStart,pEnd);
     }
     else if(dstyle==5)
     {//椭圆
-		CBrush *pBrush=CBrush::FromHandle((HBRUSH)GetStockObject(NULL_BRUSH));
-		CBrush *pOldBrush =pdc->SelectObject(pBrush);
-		pdc->Ellipse(pStart.x,pStart.y,pEnd.x,pEnd.y);
+		DrawEllipse(pdoc,pdc,pStart,pEnd);
         pEnd = point;
-        pdc->Ellipse(pStart.x,pStart.y,pEnd.x,pEnd.y);
+        DrawEllipse(pdoc,pdc,pStart,pEnd);
     }
     else if(dstyle==6)
     {//填充矩形
-        CBrush bsh(pdoc->color);
-        pdc->SelectObject(&bsh);
-		pdc->Rectangle(pStart.x,pStart.y,pEnd.x,pEnd.y);
+		DrawBlackjx(pdoc,pdc,pStart,pEnd);
         pEnd = point;
-        pdc->Rectangle(pStart.x,pStart.y,pEnd.x,pEnd.y);
-        bsh.DeleteObject();
+        DrawBlackjx(pdoc,pdc,pStart,pEnd);
     }
     else if(dstyle==7)
     {//圆
-		float r1 = (float)((pEnd.x-pStart.x)*(pEnd.x-pStart.x) + (pEnd.y-pStart.y)*(pEnd.y-pStart.y));
-		int r = int(sqrt(r1));//半径
-		CBrush *bsh=CBrush::FromHandle((HBRUSH)GetStockObject(NULL_BRUSH));
-		pdc->SelectObject(bsh);
-		pdc->Ellipse(pStart.x-r,pStart.y-r,pStart.x+r,pStart.y+r);
+		DrawCircle(pdoc,pdc,pStart,pEnd);
 		pEnd=point;
-		r1 = (float)((pEnd.x-pStart.x)*(pEnd.x-pStart.x) + (pEnd.y-pStart.y)*(pEnd.y-pStart.y));
-		r = int(sqrt(r1));//半径
-		pdc->Ellipse(pStart.x-r,pStart.y-r,pStart.x+r,pStart.y+r);
+		DrawCircle(pdoc,pdc,pStart,pEnd);
     }
 	else if(dstyle==8)
     {//直角三角形
-		pdc->MoveTo(pStart.x,pStart.y);
-		pdc->LineTo(pEnd.x,pEnd.y);
-		pdc->LineTo(pStart.x,pEnd.y);
-		pdc->LineTo(pStart.x,pStart.y);
+		DrawRightTriangle(pdoc,pdc,pStart,pEnd);
         pEnd = point;
-        pdc->MoveTo(pStart.x,pStart.y);
-		pdc->LineTo(pEnd.x,pEnd.y);
-		pdc->LineTo(pStart.x,pEnd.y);
-		pdc->LineTo(pStart.x,pStart.y);
+        DrawRightTriangle(pdoc,pdc,pStart,pEnd);
     }
 	else if(dstyle==9)
 	{//自由画笔
@@ -335,64 +530,27 @@ void CGroup4View::OnMouseMove(UINT nFlags, CPoint point)
 	}
 	else if(dstyle==10)
 	{//左箭头
-		int dy=int(pStart.y-pEnd.y);
-		int dx=int(pEnd.x-pStart.x);
-		pdc->MoveTo(pStart.x,int(pStart.y-dy/2));
-		pdc->LineTo(int(pStart.x+dx/2),pStart.y);
-		pdc->LineTo(int(pStart.x+dx/2),int(pStart.y-dy/4));
-		pdc->LineTo(pEnd.x,int(pStart.y-dy/4));
-		pdc->LineTo(pEnd.x,int(pStart.y-3*dy/4));
-		pdc->LineTo(int(pStart.x+dx/2),int(pStart.y-3*dy/4));
-		pdc->LineTo(int(pStart.x+dx/2),pEnd.y);
-		pdc->LineTo(pStart.x,int(pStart.y-dy/2));
+		DrawArrawLeft(pdoc,pdc,pStart,pEnd);
 		pEnd=point;
-		dy=int(pStart.y-pEnd.y);
-		dx=int(pEnd.x-pStart.x);
-		pdc->MoveTo(pStart.x,int(pStart.y-dy/2));
-		pdc->LineTo(int(pStart.x+dx/2),pStart.y);
-		pdc->LineTo(int(pStart.x+dx/2),int(pStart.y-dy/4));
-		pdc->LineTo(pEnd.x,int(pStart.y-dy/4));
-		pdc->LineTo(pEnd.x,int(pStart.y-3*dy/4));
-		pdc->LineTo(int(pStart.x+dx/2),int(pStart.y-3*dy/4));
-		pdc->LineTo(int(pStart.x+dx/2),pEnd.y);
-		pdc->LineTo(pStart.x,int(pStart.y-dy/2));
+		DrawArrawLeft(pdoc,pdc,pStart,pEnd);
 	}
 	else if(dstyle==11)
 	{//上箭头
-		int dy0=int(pStart.y-pEnd.y);
-		int dx0=int(pEnd.x-pStart.x);
-		pdc->MoveTo(pStart.x,int(pStart.y-dy0/2));
-		pdc->LineTo(int(pStart.x+dx0/2),pStart.y);
-		pdc->LineTo(pEnd.x,int(pStart.y-dy0/2));
-		pdc->LineTo(int(pStart.x+3*dx0/4),int(pStart.y-dy0/2));
-		pdc->LineTo(int(pStart.x+3*dx0/4),pEnd.y);
-		pdc->LineTo(int(pStart.x+dx0/4),pEnd.y);
-		pdc->LineTo(int(pStart.x+dx0/4),int(pStart.y-dy0/2));
-		pdc->LineTo(pStart.x,int(pStart.y-dy0/2));
+		DrawArrowUp(pdoc,pdc,pStart,pEnd);
 		pEnd=point;
-		dy0=int(pStart.y-pEnd.y);
-		dx0=int(pEnd.x-pStart.x);
-		pdc->MoveTo(pStart.x,int(pStart.y-dy0/2));
-		pdc->LineTo(int(pStart.x+dx0/2),pStart.y);
-		pdc->LineTo(pEnd.x,int(pStart.y-dy0/2));
-		pdc->LineTo(int(pStart.x+3*dx0/4),int(pStart.y-dy0/2));
-		pdc->LineTo(int(pStart.x+3*dx0/4),pEnd.y);
-		pdc->LineTo(int(pStart.x+dx0/4),pEnd.y);
-		pdc->LineTo(int(pStart.x+dx0/4),int(pStart.y-dy0/2));
-		pdc->LineTo(pStart.x,int(pStart.y-dy0/2));
+		DrawArrowUp(pdoc,pdc,pStart,pEnd);
 	}
-	else if(dstyle=12)
+	else if(dstyle==12)
 	{//实心圆
-		float r1 = (float)((pEnd.x-pStart.x)*(pEnd.x-pStart.x) + (pEnd.y-pStart.y)*(pEnd.y-pStart.y));
-		int r = int(sqrt(r1));//半径
-        CBrush bsh(pdoc->color);
-        pdc->SelectObject(&bsh);
-		pdc->Ellipse(pStart.x-r,pStart.y-r,pStart.x+r,pStart.y+r);
+		Drawblackcircle(pdoc,pdc,pStart,pEnd);
 		pEnd=point;
-		r1 = (float)((pEnd.x-pStart.x)*(pEnd.x-pStart.x) + (pEnd.y-pStart.y)*(pEnd.y-pStart.y));
-		r = int(sqrt(r1));//半径
-		pdc->Ellipse(pStart.x-r,pStart.y-r,pStart.x+r,pStart.y+r);
-		bsh.DeleteObject();
+		Drawblackcircle(pdoc,pdc,pStart,pEnd);
+	}
+	else if(dstyle==13)
+	{//五角星
+		Drawfivestar(pdoc,pdc,pStart,pEnd);
+		pEnd=point;
+		Drawfivestar(pdoc,pdc,pStart,pEnd);
 	}
 	ReleaseDC(pdc);
 	CView::OnMouseMove(nFlags, point);
@@ -405,60 +563,45 @@ void CGroup4View::OnLButtonUp(UINT nFlags, CPoint point)
 	CPen pen(pdoc->type, pdoc->thickness,pdoc->color);
 	pdc->SelectObject(pen);
 	pdc->SetROP2(R2_COPYPEN);//当前颜色覆盖背景颜色
-    if(dstyle==1)
+	//点信息
+    ListPoint lp;
+	lp.pStart=pStart;
+	lp.pEnd=pEnd;
+	lp.color=pdoc->color;
+	lp.dstyle=dstyle;
+	lp.type=pdoc->type;
+	lp.width=pdoc->thickness;
+	if(dstyle==1)
     {//点
-		CBrush bsh(pdoc->color);
-        pdc->SelectObject(&bsh);
-		pdc->Ellipse(pEnd.x,pEnd.y,pEnd.x+5,pEnd.y+5);
-		bsh.DeleteObject();
+		DrawPoint(pdoc,pdc,pEnd);
     }
     else if(dstyle==2)
     {//线
-		pdc->MoveTo(pStart.x,pStart.y);
-		pdc->LineTo(pEnd.x,pEnd.y);
+		DrawLine(pdoc,pdc,pStart,pEnd);
     }
     else if(dstyle==3)
     {//等腰三角
-		pdc->MoveTo((pStart.x+pEnd.x)/2,pStart.y);
-		pdc->LineTo(pStart.x,pEnd.y);
-		pdc->LineTo(pEnd.x,pEnd.y);
-		pdc->LineTo((pStart.x+pEnd.x)/2,pStart.y);
+		DrawTriangle(pdoc,pdc,pStart,pEnd);
     }
 	else if(dstyle==4)
     {//矩形
-		CBrush *pBrush=CBrush::FromHandle((HBRUSH)GetStockObject(NULL_BRUSH));
-		CBrush *pOldBrush =pdc->SelectObject(pBrush);
-        pdc->Rectangle(pStart.x,pStart.y,pEnd.x,pEnd.y);
+		DrawRectangle(pdoc,pdc,pStart,pEnd);
     }
     else if(dstyle==5)
     {//椭圆
-		CBrush *pBrush=CBrush::FromHandle((HBRUSH)GetStockObject(NULL_BRUSH));
-		CBrush *pOldBrush =pdc->SelectObject(pBrush);
-        pdc->Ellipse(pStart.x,pStart.y,pEnd.x,pEnd.y);
+		DrawEllipse(pdoc,pdc,pStart,pEnd);
     }
    else if(dstyle==6)
     {//填充矩形
-        CBrush bsh;
-        bsh.CreateSolidBrush(pdoc->color);
-        pdc->SelectObject(&bsh);
-        pdc->Rectangle(pStart.x,pStart.y,pEnd.x,pEnd.y);
-		bsh.DeleteObject();
+        DrawBlackjx(pdoc,pdc,pStart,pEnd);
     }
    else if(dstyle==7)
     {//画圆形
-	   	CBrush *bsh=CBrush::FromHandle((HBRUSH)GetStockObject(NULL_BRUSH));
-		pdc->SelectObject(bsh);
-		CPen pen(pdoc->type,pdoc->thickness,pdoc->color);
-	   	float r1 = (float)((pEnd.x-pStart.x)*(pEnd.x-pStart.x) + (pEnd.y-pStart.y)*(pEnd.y-pStart.y));
-		int r = int(sqrt(r1));//半径
-		pdc->Ellipse(pStart.x-r,pStart.y-r,pStart.x+r,pStart.y+r);
+	   	DrawCircle(pdoc,pdc,pStart,pEnd);
     }
    else if(dstyle==8)
     {//直角三角形
-		pdc->MoveTo(pStart.x,pStart.y);
-		pdc->LineTo(pEnd.x,pEnd.y);
-		pdc->LineTo(pStart.x,pEnd.y);
-		pdc->LineTo(pStart.x,pStart.y);
+		DrawRightTriangle(pdoc,pdc,pStart,pEnd);
     }
 	else if(dstyle==9)
 	{//自由画笔
@@ -467,40 +610,23 @@ void CGroup4View::OnLButtonUp(UINT nFlags, CPoint point)
 	}
 	else if(dstyle==10)
 	{//左箭头
-		int dy=int(pStart.y-pEnd.y);
-		int dx=int(pEnd.x-pStart.x);
-		pdc->MoveTo(pStart.x,int(pStart.y-dy/2));
-		pdc->LineTo(int(pStart.x+dx/2),pStart.y);
-		pdc->LineTo(int(pStart.x+dx/2),int(pStart.y-dy/4));
-		pdc->LineTo(pEnd.x,int(pStart.y-dy/4));
-		pdc->LineTo(pEnd.x,int(pStart.y-3*dy/4));
-		pdc->LineTo(int(pStart.x+dx/2),int(pStart.y-3*dy/4));
-		pdc->LineTo(int(pStart.x+dx/2),pEnd.y);
-		pdc->LineTo(pStart.x,int(pStart.y-dy/2));
+		DrawArrawLeft(pdoc,pdc,pStart,pEnd);
 	}
 	else if(dstyle==11)
 	{//上箭头
-		int dy0=int(pStart.y-pEnd.y);
-		int dx0=int(pEnd.x-pStart.x);
-		pdc->MoveTo(pStart.x,int(pStart.y-dy0/2));
-		pdc->LineTo(int(pStart.x+dx0/2),pStart.y);
-		pdc->LineTo(pEnd.x,int(pStart.y-dy0/2));
-		pdc->LineTo(int(pStart.x+3*dx0/4),int(pStart.y-dy0/2));
-		pdc->LineTo(int(pStart.x+3*dx0/4),pEnd.y);
-		pdc->LineTo(int(pStart.x+dx0/4),pEnd.y);
-		pdc->LineTo(int(pStart.x+dx0/4),int(pStart.y-dy0/2));
-		pdc->LineTo(pStart.x,int(pStart.y-dy0/2));
+		DrawArrowUp(pdoc,pdc,pStart,pEnd);
 	}
-	else if(dstyle=12)
+	else if(dstyle==12)
 	{//实心圆
-		float r1 = (float)((pEnd.x-pStart.x)*(pEnd.x-pStart.x) + (pEnd.y-pStart.y)*(pEnd.y-pStart.y));
-		int r = int(sqrt(r1));//半径
-        CBrush bsh(pdoc->color);
-        pdc->SelectObject(&bsh);
-		pdc->Ellipse(pStart.x-r,pStart.y-r,pStart.x+r,pStart.y+r);
-		bsh.DeleteObject();
+		Drawblackcircle(pdoc,pdc,pStart,pEnd);
+	}
+	else if(dstyle==13)
+	{//五角星
+		Drawfivestar(pdoc,pdc,pStart,pEnd);
 	}
 	cclick=false;
+	if(dstyle!=9)
+	GetDocument()->Mylist.AddTail(lp);//保存信息
 	CView::OnLButtonUp(nFlags, point);
 	ReleaseDC(pdc);
 }
@@ -519,3 +645,7 @@ void CGroup4View::OnChangeColor()
     {
 	}
 }
+
+
+
+
