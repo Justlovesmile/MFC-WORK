@@ -82,7 +82,7 @@ IDR_MAINFRAME           BITMAP  MOVEABLE PURE   "res\\Toolbar.bmp"
 // Toolbar
 //
 
-IDR_MAINFRAME TOOLBAR DISCARDABLE  22, 21
+IDR_MAINFRAME TOOLBAR DISCARDABLE  32, 32
 BEGIN
     BUTTON      ID_FILE_OPEN
     BUTTON      ID_FILE_SAVE
@@ -90,6 +90,7 @@ BEGIN
     BUTTON      IDD_makepencil
     BUTTON      IDD_makepoint
     BUTTON      IDD_makeline
+    BUTTON      IDD_makehu
     BUTTON      IDD_makerectangle
     BUTTON      IDD_makeblackjx
     BUTTON      IDD_maketriangle
@@ -97,12 +98,18 @@ BEGIN
     BUTTON      IDD_makeellipse
     BUTTON      IDD_makecircle
     BUTTON      IDD_makeblackcircle
+    BUTTON      IDD_makePentagon
+    BUTTON      IDD_makeFiveStar
+    BUTTON      IDD_makeFourStar
     BUTTON      IDD_makeArrowUp
     BUTTON      IDD_makeArrawLeft
-    BUTTON      IDD_CLEAR
     BUTTON      IDD_ChangeColor
+    BUTTON      IDD_CLEAR
     BUTTON      IDD_BackPrev
-    BUTTON      IDD_makeFiveStar
+    BUTTON      IDD_Tup
+    BUTTON      IDD_Tdown
+    BUTTON      IDD_Tleft
+    BUTTON      IDD_Tright
 END
 
 

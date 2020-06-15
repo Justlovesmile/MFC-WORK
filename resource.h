@@ -27,6 +27,13 @@
 #define IDD_ChangeColor                 32794
 #define IDD_BackPrev                    32795
 #define IDD_makeFiveStar                32796
+#define IDD_makePentagon                32797
+#define IDD_makeFourStar                32798
+#define IDD_makehu                      32799
+#define IDD_Tup                         32800
+#define IDD_Tdown                       32801
+#define IDD_Tleft                       32802
+#define IDD_Tright                      32803
 
 // Next default values for new objects
 // 
@@ -34,7 +41,7 @@
 #ifndef APSTUDIO_READONLY_SYMBOLS
 #define _APS_3D_CONTROLS                     1
 #define _APS_NEXT_RESOURCE_VALUE        130
-#define _APS_NEXT_COMMAND_VALUE         32797
+#define _APS_NEXT_COMMAND_VALUE         32804
 #define _APS_NEXT_CONTROL_VALUE         1000
 #define _APS_NEXT_SYMED_VALUE           101
 #endif

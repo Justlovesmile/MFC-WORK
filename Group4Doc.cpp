@@ -78,7 +78,7 @@ void CGroup4Doc::Serialize(CArchive& ar)
         POSITION pos = Mylist.GetHeadPosition();
         for(i = 0; i<count; i++)
         {
-            ar<<lp.type<<lp.width<<lp.color<<lp.pStart<<lp.pEnd<<lp.dstyle;
+            ar>>lp.type>>lp.width>>lp.color>>lp.pStart>>lp.pEnd>>lp.dstyle;
             Mylist.AddTail(lp);
         }
     }

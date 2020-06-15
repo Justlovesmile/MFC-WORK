@@ -23,7 +23,7 @@ public:
 
 // Operations
 public:
-	void DoubleBuffer(CDC* pDC);
+	void DoubleBuffer();
 	void DrawPoint(CGroup4Doc* pdoc,CDC* pdc,CPoint pEnd);
 	void DrawLine(CGroup4Doc* pdoc,CDC* pdc,CPoint pStart,CPoint pEnd);
 	void DrawTriangle(CGroup4Doc* pdoc,CDC* pdc,CPoint pStart,CPoint pEnd);
@@ -36,7 +36,11 @@ public:
 	void DrawArrowUp(CGroup4Doc* pdoc,CDC* pdc,CPoint pStart,CPoint pEnd);
 	void Drawblackcircle(CGroup4Doc* pdoc,CDC* pdc,CPoint pStart,CPoint pEnd);
 	void Drawfivestar(CGroup4Doc* pdoc,CDC* pdc,CPoint pStart,CPoint pEnd);
-	void ReDrawObject();
+	void DrawFourStar(CGroup4Doc* pdoc,CDC* pdc,CPoint pStart,CPoint pEnd);
+	void DrawPentagon(CGroup4Doc* pdoc,CDC* pdc,CPoint pStart,CPoint pEnd);
+	void DrawHu(CGroup4Doc* pdoc,CDC* pdc,CPoint pStart,CPoint pEnd);
+	void ReDrawObject(CDC* pdc);
+
 // Overrides
 	// ClassWizard generated virtual function overrides
 	//{{AFX_VIRTUAL(CGroup4View)
@@ -51,7 +55,6 @@ public:
 
 // Implementation
 public:
-	void DrawRectangle(CDC* pDC,CTransform *transP);
 	virtual ~CGroup4View();
 #ifdef _DEBUG
 	virtual void AssertValid() const;
@@ -60,6 +63,8 @@ public:
 
 protected:
 	CPoint pStart,pEnd;
+	CP2 P[2];//µã±í	
+	CTransform trans;
 // Generated message map functions
 protected:
 	//{{AFX_MSG(CGroup4View)
@@ -82,6 +87,13 @@ protected:
 	afx_msg void OnChangeColor();
 	afx_msg void OnBackPrev();
 	afx_msg void OnmakeFiveStar();
+	afx_msg void OnmakePentagon();
+	afx_msg void OnmakeFourStar();
+	afx_msg void Onmakehu();
+	afx_msg void OnTdown();
+	afx_msg void OnTleft();
+	afx_msg void OnTright();
+	afx_msg void OnTup();
 	//}}AFX_MSG
 	DECLARE_MESSAGE_MAP()
 };
