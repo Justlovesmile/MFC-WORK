@@ -84,9 +84,6 @@ IDR_MAINFRAME           BITMAP  MOVEABLE PURE   "res\\Toolbar.bmp"
 
 IDR_MAINFRAME TOOLBAR DISCARDABLE  32, 32
 BEGIN
-    BUTTON      ID_FILE_OPEN
-    BUTTON      ID_FILE_SAVE
-    SEPARATOR
     BUTTON      IDD_makepencil
     BUTTON      IDD_makepoint
     BUTTON      IDD_makeline
@@ -110,6 +107,10 @@ BEGIN
     BUTTON      IDD_Tdown
     BUTTON      IDD_Tleft
     BUTTON      IDD_Tright
+    BUTTON      IDD_TCounterclockwise
+    BUTTON      IDD_Tclockwise
+    BUTTON      IDD_TBig
+    BUTTON      IDD_TSmall
 END
 
 

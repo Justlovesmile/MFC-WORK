@@ -34,6 +34,10 @@
 #define IDD_Tdown                       32801
 #define IDD_Tleft                       32802
 #define IDD_Tright                      32803
+#define IDD_TCounterclockwise           32804
+#define IDD_Tclockwise                  32805
+#define IDD_TSmall                      32806
+#define IDD_TBig                        32807
 
 // Next default values for new objects
 // 
@@ -41,7 +45,7 @@
 #ifndef APSTUDIO_READONLY_SYMBOLS
 #define _APS_3D_CONTROLS                     1
 #define _APS_NEXT_RESOURCE_VALUE        130
-#define _APS_NEXT_COMMAND_VALUE         32804
+#define _APS_NEXT_COMMAND_VALUE         32808
 #define _APS_NEXT_CONTROL_VALUE         1000
 #define _APS_NEXT_SYMED_VALUE           101
 #endif

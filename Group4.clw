@@ -15,9 +15,9 @@ Class3=CGroup4View
 Class4=CMainFrame
 
 ResourceCount=2
-Resource1=IDR_MAINFRAME
+Resource1=IDD_ABOUTBOX
 Class5=CAboutDlg
-Resource2=IDD_ABOUTBOX
+Resource2=IDR_MAINFRAME
 
 [CLS:CGroup4App]
 Type=0
@@ -38,7 +38,7 @@ ImplementationFile=Group4View.cpp
 Filter=C
 BaseClass=CView
 VirtualFilter=VWC
-LastObject=IDD_Tdown
+LastObject=IDD_TSmall
 
 
 [CLS:CMainFrame]
@@ -117,30 +117,32 @@ CommandCount=14
 [TB:IDR_MAINFRAME]
 Type=1
 Class=?
-Command1=ID_FILE_OPEN
-Command2=ID_FILE_SAVE
-Command3=IDD_makepencil
-Command4=IDD_makepoint
-Command5=IDD_makeline
-Command6=IDD_makehu
-Command7=IDD_makerectangle
-Command8=IDD_makeblackjx
-Command9=IDD_maketriangle
-Command10=IDD_makeRightTriangle
-Command11=IDD_makeellipse
-Command12=IDD_makecircle
-Command13=IDD_makeblackcircle
-Command14=IDD_makePentagon
-Command15=IDD_makeFiveStar
-Command16=IDD_makeFourStar
-Command17=IDD_makeArrowUp
-Command18=IDD_makeArrawLeft
-Command19=IDD_ChangeColor
-Command20=IDD_CLEAR
-Command21=IDD_BackPrev
-Command22=IDD_Tup
-Command23=IDD_Tdown
-Command24=IDD_Tleft
-Command25=IDD_Tright
-CommandCount=25
+Command1=IDD_makepencil
+Command2=IDD_makepoint
+Command3=IDD_makeline
+Command4=IDD_makehu
+Command5=IDD_makerectangle
+Command6=IDD_makeblackjx
+Command7=IDD_maketriangle
+Command8=IDD_makeRightTriangle
+Command9=IDD_makeellipse
+Command10=IDD_makecircle
+Command11=IDD_makeblackcircle
+Command12=IDD_makePentagon
+Command13=IDD_makeFiveStar
+Command14=IDD_makeFourStar
+Command15=IDD_makeArrowUp
+Command16=IDD_makeArrawLeft
+Command17=IDD_ChangeColor
+Command18=IDD_CLEAR
+Command19=IDD_BackPrev
+Command20=IDD_Tup
+Command21=IDD_Tdown
+Command22=IDD_Tleft
+Command23=IDD_Tright
+Command24=IDD_TCounterclockwise
+Command25=IDD_Tclockwise
+Command26=IDD_TBig
+Command27=IDD_TSmall
+CommandCount=27
 

@@ -16,6 +16,7 @@ static char THIS_FILE[] = __FILE__;
 
 bool cclick;
 int dstyle=0;
+bool pclick=false;
 /////////////////////////////////////////////////////////////////////////////
 // CGroup4View
 
@@ -49,6 +50,10 @@ BEGIN_MESSAGE_MAP(CGroup4View, CView)
 	ON_COMMAND(IDD_Tleft, OnTleft)
 	ON_COMMAND(IDD_Tright, OnTright)
 	ON_COMMAND(IDD_Tup, OnTup)
+	ON_COMMAND(IDD_TCounterclockwise, OnTCounterclockwise)
+	ON_COMMAND(IDD_Tclockwise, OnTclockwise)
+	ON_COMMAND(IDD_TBig, OnTBig)
+	ON_COMMAND(IDD_TSmall, OnTSmall)
 	//}}AFX_MSG_MAP
 	// Standard printing commands
 	ON_COMMAND(ID_FILE_PRINT, CView::OnFilePrint)
@@ -85,14 +90,18 @@ void CGroup4View::OnDraw(CDC* pDC)
 	pDoc->color=RGB(0,0,0);
 	pDoc->thickness=1;
 	pDoc->type=PS_SOLID;
-	//DoubleBuffer();
-	//自定义坐标系
 	CRect rect;
 	GetClientRect(&rect);
+	//DoubleBuffer();
+	//自定义
+	if(!pclick){
 	pDC->SetMapMode(MM_ANISOTROPIC);//设置映射模式
 	pDC->SetWindowExt(rect.Width(),rect.Height());//设置窗口
 	pDC->SetViewportExt(rect.Width(),-rect.Height());//设置视区:x轴水平向右，y轴垂直向上
 	pDC->SetViewportOrg(rect.Width()/2,rect.Height()/2);//客户区中心为坐标系原点
+	}
+	P2.x=rect.Width()/2;
+	P2.y=rect.Height()/2;
 	ReleaseDC(pDC);
 	trans.SetMat(P,2);
 }
@@ -172,7 +181,6 @@ void CGroup4View::ReDrawObject(CDC* pdc)
 	CGroup4Doc* pdoc = GetDocument();
     if (!pdoc)
         return;
-	cclick=false;
     ListPoint g;
 	//暂存数据
 	int ds=dstyle;
@@ -245,6 +253,8 @@ void CGroup4View::ReDrawObject(CDC* pdc)
 	pdoc->type=ty;
 	pdoc->thickness=th;
 	dstyle=ds;
+	cclick=false;
+	pclick=false;
 }
 
 //回退
@@ -265,11 +275,21 @@ void CGroup4View::OnBackPrev()
 //清屏
 void CGroup4View::OnClear() 
 {
-	RedrawWindow();
-	CGroup4Doc* pdoc = GetDocument();
-	pdoc->Mylist.RemoveAll();
-	cclick=false;
-	dstyle=0;
+	int result =MessageBox( TEXT("确定清空吗？") , TEXT("提示") ,MB_YESNO);
+	switch(result)
+	{
+		case IDYES:
+		{
+			RedrawWindow();
+			CGroup4Doc* pdoc = GetDocument();
+			pdoc->Mylist.RemoveAll();
+			cclick=false;
+			dstyle=0;
+			break;
+		}
+		case IDNO:
+			break;
+	}
 }
 //点
 void CGroup4View::Onmakepoint() 
@@ -860,5 +880,147 @@ void CGroup4View::OnTup()
 		pdoc->Mylist.AddTail(g);
 	}
 	ReDrawObject(pdc);
+	ReleaseDC(pdc);
+}
+
+void CGroup4View::OnTCounterclockwise() 
+{
+	// TODO: Add your command handler code here
+	CDC* pdc=GetDC();
+	CGroup4Doc* pdoc = GetDocument();
+    if (!pdoc)
+        return;
+    ListPoint g;
+	int Lcount;
+    POSITION pos = pdoc->Mylist.GetHeadPosition();
+    Lcount=pdoc -> Mylist.GetCount();
+	for(int i = 0; i<Lcount; i++)
+    {
+        g = pdoc -> Mylist.GetNext(pos);
+		P[0].x=g.pStart.x;P[0].y=g.pStart.y;
+		P[1].x=g.pEnd.x;P[1].y=g.pEnd.y;
+		trans.Rotate(90,P2);
+		g.pStart.x=P[0].x;g.pStart.y=P[0].y;
+		g.pEnd.x=P[1].x;g.pEnd.y=P[1].y;
+		pdoc->Mylist.RemoveHead();
+		pdoc->Mylist.AddTail(g);
+	}
+	ReDrawObject(pdc);
+	ReleaseDC(pdc);
+}
+
+void CGroup4View::OnTclockwise() 
+{
+	CDC* pdc=GetDC();
+	CGroup4Doc* pdoc = GetDocument();
+    if (!pdoc)
+        return;
+    ListPoint g;
+	int Lcount;
+    POSITION pos = pdoc->Mylist.GetHeadPosition();
+    Lcount=pdoc -> Mylist.GetCount();
+	for(int i = 0; i<Lcount; i++)
+    {
+        g = pdoc -> Mylist.GetNext(pos);
+		P[0].x=g.pStart.x;P[0].y=g.pStart.y;
+		P[1].x=g.pEnd.x;P[1].y=g.pEnd.y;
+		trans.Rotate(-90,P2);
+		g.pStart.x=P[0].x;g.pStart.y=P[0].y;
+		g.pEnd.x=P[1].x;g.pEnd.y=P[1].y;
+		pdoc->Mylist.RemoveHead();
+		pdoc->Mylist.AddTail(g);
+	}
+	ReDrawObject(pdc);
+	ReleaseDC(pdc);
+}
+
+void CGroup4View::OnTBig() 
+{
+	CRect rect;
+	GetClientRect(&rect);
+	CDC* pdc=GetDC();
+	CGroup4Doc* pdoc = GetDocument();
+    if (!pdoc)
+        return;
+    ListPoint g;
+	int Lcount;
+	int dx,dy,i;
+	bool flag=true;
+    POSITION pos = pdoc->Mylist.GetHeadPosition();
+    Lcount=pdoc -> Mylist.GetCount();
+	for(i = 0; i<Lcount; i++)
+    {
+        g = pdoc -> Mylist.GetNext(pos);
+		P[0].x=g.pStart.x;P[0].y=g.pStart.y;
+		P[1].x=g.pEnd.x;P[1].y=g.pEnd.y;
+		trans.Scale(2,2);
+		dx=abs(P[0].x-P[1].x);
+		dy=abs(P[0].y-P[1].y);
+		if(dx>rect.Width()||dy>rect.Height()){
+			flag=false;
+			MessageBox("不能再大了","提示");
+			break;
+		}
+	}
+	if(flag){
+		pos = pdoc->Mylist.GetHeadPosition();
+		for(i = 0; i<Lcount; i++)
+		{
+			g = pdoc -> Mylist.GetNext(pos);
+			P[0].x=g.pStart.x;P[0].y=g.pStart.y;
+			P[1].x=g.pEnd.x;P[1].y=g.pEnd.y;
+			trans.Scale(2,2);
+			g.pStart.x=P[0].x;g.pStart.y=P[0].y;
+			g.pEnd.x=P[1].x;g.pEnd.y=P[1].y;
+			pdoc->Mylist.RemoveHead();
+			pdoc->Mylist.AddTail(g);
+		}
+		ReDrawObject(pdc);
+	}
+	ReleaseDC(pdc);
+}
+
+void CGroup4View::OnTSmall() 
+{
+	// TODO: Add your command handler code here
+	CDC* pdc=GetDC();
+	CGroup4Doc* pdoc = GetDocument();
+    if (!pdoc)
+        return;
+    ListPoint g;
+	int Lcount;
+	int dx,dy,i;
+	bool flag=true;
+    POSITION pos = pdoc->Mylist.GetHeadPosition();
+    Lcount=pdoc -> Mylist.GetCount();
+	for(i = 0; i<Lcount; i++)
+    {
+        g = pdoc -> Mylist.GetNext(pos);
+		P[0].x=g.pStart.x;P[0].y=g.pStart.y;
+		P[1].x=g.pEnd.x;P[1].y=g.pEnd.y;
+		trans.Scale(0.5,0.5);
+		dx=abs(P[0].x-P[1].x);
+		dy=abs(P[0].y-P[1].y);
+		if(dx<5||dy<5){
+			flag=false;
+			MessageBox("不能再小了","提示");
+			break;
+		}
+	}
+	if(flag){
+		pos = pdoc->Mylist.GetHeadPosition();
+		for(i = 0; i<Lcount; i++)
+		{
+			g = pdoc -> Mylist.GetNext(pos);
+			P[0].x=g.pStart.x;P[0].y=g.pStart.y;
+			P[1].x=g.pEnd.x;P[1].y=g.pEnd.y;
+			trans.Scale(0.5,0.5);
+			g.pStart.x=P[0].x;g.pStart.y=P[0].y;
+			g.pEnd.x=P[1].x;g.pEnd.y=P[1].y;
+			pdoc->Mylist.RemoveHead();
+			pdoc->Mylist.AddTail(g);
+		}
+		ReDrawObject(pdc);
+	}
 	ReleaseDC(pdc);
 }

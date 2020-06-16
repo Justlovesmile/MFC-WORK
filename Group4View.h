@@ -65,6 +65,7 @@ protected:
 	CPoint pStart,pEnd;
 	CP2 P[2];//点表	
 	CTransform trans;
+	CP2 P2;//旋转中心
 // Generated message map functions
 protected:
 	//{{AFX_MSG(CGroup4View)
@@ -94,6 +95,10 @@ protected:
 	afx_msg void OnTleft();
 	afx_msg void OnTright();
 	afx_msg void OnTup();
+	afx_msg void OnTCounterclockwise();
+	afx_msg void OnTclockwise();
+	afx_msg void OnTBig();
+	afx_msg void OnTSmall();
 	//}}AFX_MSG
 	DECLARE_MESSAGE_MAP()
 };

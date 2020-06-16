@@ -18,6 +18,7 @@ protected: // create from serialization only
 // Attributes
 public:
 	CList <ListPoint,ListPoint> Mylist;
+	CList <ListPoint,ListPoint> Templist;
 // Operations
 public:
 	int thickness;
