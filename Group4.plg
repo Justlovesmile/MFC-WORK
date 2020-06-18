@@ -6,15 +6,16 @@
 --------------------Configuration: Group4 - Win32 Debug--------------------
 </h3>
 <h3>Command Lines</h3>
-Creating temporary file "C:\Users\xqh\AppData\Local\Temp\RSPDF21.tmp" with contents
+Creating temporary file "C:\Users\xqh\AppData\Local\Temp\RSP796D.tmp" with contents
 [
 /nologo /MDd /W3 /Gm /GX /ZI /Od /D "WIN32" /D "_DEBUG" /D "_WINDOWS" /D "_AFXDLL" /D "_MBCS" /FR"Debug/" /Fp"Debug/Group4.pch" /Yu"stdafx.h" /Fo"Debug/" /Fd"Debug/" /FD /GZ /c 
 "E:\Git\MFC-WORK\Group4View.cpp"
 ]
-Creating command line "cl.exe @C:\Users\xqh\AppData\Local\Temp\RSPDF21.tmp" 
-Creating temporary file "C:\Users\xqh\AppData\Local\Temp\RSPDF32.tmp" with contents
+Creating command line "cl.exe @C:\Users\xqh\AppData\Local\Temp\RSP796D.tmp" 
+Creating temporary file "C:\Users\xqh\AppData\Local\Temp\RSP796E.tmp" with contents
 [
 /nologo /subsystem:windows /incremental:yes /pdb:"Debug/Group4.pdb" /debug /machine:I386 /out:"Debug/Group4.exe" /pdbtype:sept 
+".\Debug\choosedig.obj"
 ".\Debug\Group4.obj"
 ".\Debug\Group4Doc.obj"
 ".\Debug\Group4View.obj"
@@ -24,7 +25,7 @@ Creating temporary file "C:\Users\xqh\AppData\Local\Temp\RSPDF32.tmp" with conte
 ".\Debug\Transform .obj"
 ".\Debug\Group4.res"
 ]
-Creating command line "link.exe @C:\Users\xqh\AppData\Local\Temp\RSPDF32.tmp"
+Creating command line "link.exe @C:\Users\xqh\AppData\Local\Temp\RSP796E.tmp"
 <h3>Output Window</h3>
 Compiling...
 Group4View.cpp
@@ -32,40 +33,40 @@ E:\Git\MFC-WORK\Group4View.cpp(799) : warning C4244: '=' : conversion from 'doub
 E:\Git\MFC-WORK\Group4View.cpp(799) : warning C4244: '=' : conversion from 'double' to 'long', possible loss of data
 E:\Git\MFC-WORK\Group4View.cpp(800) : warning C4244: '=' : conversion from 'double' to 'long', possible loss of data
 E:\Git\MFC-WORK\Group4View.cpp(800) : warning C4244: '=' : conversion from 'double' to 'long', possible loss of data
-E:\Git\MFC-WORK\Group4View.cpp(825) : warning C4244: '=' : conversion from 'double' to 'long', possible loss of data
-E:\Git\MFC-WORK\Group4View.cpp(825) : warning C4244: '=' : conversion from 'double' to 'long', possible loss of data
-E:\Git\MFC-WORK\Group4View.cpp(826) : warning C4244: '=' : conversion from 'double' to 'long', possible loss of data
-E:\Git\MFC-WORK\Group4View.cpp(826) : warning C4244: '=' : conversion from 'double' to 'long', possible loss of data
-E:\Git\MFC-WORK\Group4View.cpp(851) : warning C4244: '=' : conversion from 'double' to 'long', possible loss of data
-E:\Git\MFC-WORK\Group4View.cpp(851) : warning C4244: '=' : conversion from 'double' to 'long', possible loss of data
-E:\Git\MFC-WORK\Group4View.cpp(852) : warning C4244: '=' : conversion from 'double' to 'long', possible loss of data
-E:\Git\MFC-WORK\Group4View.cpp(852) : warning C4244: '=' : conversion from 'double' to 'long', possible loss of data
-E:\Git\MFC-WORK\Group4View.cpp(877) : warning C4244: '=' : conversion from 'double' to 'long', possible loss of data
-E:\Git\MFC-WORK\Group4View.cpp(877) : warning C4244: '=' : conversion from 'double' to 'long', possible loss of data
-E:\Git\MFC-WORK\Group4View.cpp(878) : warning C4244: '=' : conversion from 'double' to 'long', possible loss of data
-E:\Git\MFC-WORK\Group4View.cpp(878) : warning C4244: '=' : conversion from 'double' to 'long', possible loss of data
-E:\Git\MFC-WORK\Group4View.cpp(903) : warning C4244: '=' : conversion from 'double' to 'long', possible loss of data
-E:\Git\MFC-WORK\Group4View.cpp(903) : warning C4244: '=' : conversion from 'double' to 'long', possible loss of data
-E:\Git\MFC-WORK\Group4View.cpp(904) : warning C4244: '=' : conversion from 'double' to 'long', possible loss of data
-E:\Git\MFC-WORK\Group4View.cpp(904) : warning C4244: '=' : conversion from 'double' to 'long', possible loss of data
-E:\Git\MFC-WORK\Group4View.cpp(928) : warning C4244: '=' : conversion from 'double' to 'long', possible loss of data
-E:\Git\MFC-WORK\Group4View.cpp(928) : warning C4244: '=' : conversion from 'double' to 'long', possible loss of data
-E:\Git\MFC-WORK\Group4View.cpp(929) : warning C4244: '=' : conversion from 'double' to 'long', possible loss of data
-E:\Git\MFC-WORK\Group4View.cpp(929) : warning C4244: '=' : conversion from 'double' to 'long', possible loss of data
-E:\Git\MFC-WORK\Group4View.cpp(957) : warning C4244: 'argument' : conversion from 'double' to 'int', possible loss of data
-E:\Git\MFC-WORK\Group4View.cpp(958) : warning C4244: 'argument' : conversion from 'double' to 'int', possible loss of data
-E:\Git\MFC-WORK\Group4View.cpp(973) : warning C4244: '=' : conversion from 'double' to 'long', possible loss of data
-E:\Git\MFC-WORK\Group4View.cpp(973) : warning C4244: '=' : conversion from 'double' to 'long', possible loss of data
-E:\Git\MFC-WORK\Group4View.cpp(974) : warning C4244: '=' : conversion from 'double' to 'long', possible loss of data
-E:\Git\MFC-WORK\Group4View.cpp(974) : warning C4244: '=' : conversion from 'double' to 'long', possible loss of data
-E:\Git\MFC-WORK\Group4View.cpp(1002) : warning C4244: 'argument' : conversion from 'double' to 'int', possible loss of data
-E:\Git\MFC-WORK\Group4View.cpp(1003) : warning C4244: 'argument' : conversion from 'double' to 'int', possible loss of data
-E:\Git\MFC-WORK\Group4View.cpp(1018) : warning C4244: '=' : conversion from 'double' to 'long', possible loss of data
-E:\Git\MFC-WORK\Group4View.cpp(1018) : warning C4244: '=' : conversion from 'double' to 'long', possible loss of data
-E:\Git\MFC-WORK\Group4View.cpp(1019) : warning C4244: '=' : conversion from 'double' to 'long', possible loss of data
-E:\Git\MFC-WORK\Group4View.cpp(1019) : warning C4244: '=' : conversion from 'double' to 'long', possible loss of data
+E:\Git\MFC-WORK\Group4View.cpp(830) : warning C4244: '=' : conversion from 'double' to 'long', possible loss of data
+E:\Git\MFC-WORK\Group4View.cpp(830) : warning C4244: '=' : conversion from 'double' to 'long', possible loss of data
+E:\Git\MFC-WORK\Group4View.cpp(831) : warning C4244: '=' : conversion from 'double' to 'long', possible loss of data
+E:\Git\MFC-WORK\Group4View.cpp(831) : warning C4244: '=' : conversion from 'double' to 'long', possible loss of data
+E:\Git\MFC-WORK\Group4View.cpp(861) : warning C4244: '=' : conversion from 'double' to 'long', possible loss of data
+E:\Git\MFC-WORK\Group4View.cpp(861) : warning C4244: '=' : conversion from 'double' to 'long', possible loss of data
+E:\Git\MFC-WORK\Group4View.cpp(862) : warning C4244: '=' : conversion from 'double' to 'long', possible loss of data
+E:\Git\MFC-WORK\Group4View.cpp(862) : warning C4244: '=' : conversion from 'double' to 'long', possible loss of data
+E:\Git\MFC-WORK\Group4View.cpp(892) : warning C4244: '=' : conversion from 'double' to 'long', possible loss of data
+E:\Git\MFC-WORK\Group4View.cpp(892) : warning C4244: '=' : conversion from 'double' to 'long', possible loss of data
+E:\Git\MFC-WORK\Group4View.cpp(893) : warning C4244: '=' : conversion from 'double' to 'long', possible loss of data
+E:\Git\MFC-WORK\Group4View.cpp(893) : warning C4244: '=' : conversion from 'double' to 'long', possible loss of data
+E:\Git\MFC-WORK\Group4View.cpp(920) : warning C4244: '=' : conversion from 'double' to 'long', possible loss of data
+E:\Git\MFC-WORK\Group4View.cpp(920) : warning C4244: '=' : conversion from 'double' to 'long', possible loss of data
+E:\Git\MFC-WORK\Group4View.cpp(921) : warning C4244: '=' : conversion from 'double' to 'long', possible loss of data
+E:\Git\MFC-WORK\Group4View.cpp(921) : warning C4244: '=' : conversion from 'double' to 'long', possible loss of data
+E:\Git\MFC-WORK\Group4View.cpp(945) : warning C4244: '=' : conversion from 'double' to 'long', possible loss of data
+E:\Git\MFC-WORK\Group4View.cpp(945) : warning C4244: '=' : conversion from 'double' to 'long', possible loss of data
+E:\Git\MFC-WORK\Group4View.cpp(946) : warning C4244: '=' : conversion from 'double' to 'long', possible loss of data
+E:\Git\MFC-WORK\Group4View.cpp(946) : warning C4244: '=' : conversion from 'double' to 'long', possible loss of data
+E:\Git\MFC-WORK\Group4View.cpp(974) : warning C4244: 'argument' : conversion from 'double' to 'int', possible loss of data
+E:\Git\MFC-WORK\Group4View.cpp(975) : warning C4244: 'argument' : conversion from 'double' to 'int', possible loss of data
+E:\Git\MFC-WORK\Group4View.cpp(990) : warning C4244: '=' : conversion from 'double' to 'long', possible loss of data
+E:\Git\MFC-WORK\Group4View.cpp(990) : warning C4244: '=' : conversion from 'double' to 'long', possible loss of data
+E:\Git\MFC-WORK\Group4View.cpp(991) : warning C4244: '=' : conversion from 'double' to 'long', possible loss of data
+E:\Git\MFC-WORK\Group4View.cpp(991) : warning C4244: '=' : conversion from 'double' to 'long', possible loss of data
+E:\Git\MFC-WORK\Group4View.cpp(1019) : warning C4244: 'argument' : conversion from 'double' to 'int', possible loss of data
+E:\Git\MFC-WORK\Group4View.cpp(1020) : warning C4244: 'argument' : conversion from 'double' to 'int', possible loss of data
+E:\Git\MFC-WORK\Group4View.cpp(1035) : warning C4244: '=' : conversion from 'double' to 'long', possible loss of data
+E:\Git\MFC-WORK\Group4View.cpp(1035) : warning C4244: '=' : conversion from 'double' to 'long', possible loss of data
+E:\Git\MFC-WORK\Group4View.cpp(1036) : warning C4244: '=' : conversion from 'double' to 'long', possible loss of data
+E:\Git\MFC-WORK\Group4View.cpp(1036) : warning C4244: '=' : conversion from 'double' to 'long', possible loss of data
 Linking...
-Creating command line "bscmake.exe /nologo /o"Debug/Group4.bsc"  ".\Debug\StdAfx.sbr" ".\Debug\Group4.sbr" ".\Debug\Group4Doc.sbr" ".\Debug\Group4View.sbr" ".\Debug\MainFrm.sbr" ".\Debug\P2.sbr" ".\Debug\Transform .sbr""
+Creating command line "bscmake.exe /nologo /o"Debug/Group4.bsc"  ".\Debug\StdAfx.sbr" ".\Debug\choosedig.sbr" ".\Debug\Group4.sbr" ".\Debug\Group4Doc.sbr" ".\Debug\Group4View.sbr" ".\Debug\MainFrm.sbr" ".\Debug\P2.sbr" ".\Debug\Transform .sbr""
 Creating browse info file...
 <h3>Output Window</h3>
 

@@ -90,6 +90,10 @@ LINK32=link.exe
 # PROP Default_Filter "cpp;c;cxx;rc;def;r;odl;idl;hpj;bat"
 # Begin Source File
 
+SOURCE=.\choosedig.cpp
+# End Source File
+# Begin Source File
+
 SOURCE=.\Group4.cpp
 # End Source File
 # Begin Source File
@@ -125,6 +129,10 @@ SOURCE=".\Transform .cpp"
 # Begin Group "Header Files"
 
 # PROP Default_Filter "h;hpp;hxx;hm;inl"
+# Begin Source File
+
+SOURCE=.\choosedig.h
+# End Source File
 # Begin Source File
 
 SOURCE=.\Group4.h

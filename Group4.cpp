@@ -7,7 +7,6 @@
 #include "MainFrm.h"
 #include "Group4Doc.h"
 #include "Group4View.h"
-
 #ifdef _DEBUG
 #define new DEBUG_NEW
 #undef THIS_FILE
@@ -151,4 +150,3 @@ void CGroup4App::OnAppAbout()
 
 /////////////////////////////////////////////////////////////////////////////
 // CGroup4App message handlers
-

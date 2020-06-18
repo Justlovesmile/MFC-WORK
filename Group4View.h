@@ -11,6 +11,7 @@
 #include "Transform.h"
 #include "P2.h"
 
+#include "choosedig.h"
 class CGroup4View : public CView
 {
 protected: // create from serialization only
@@ -23,7 +24,7 @@ public:
 
 // Operations
 public:
-	void DoubleBuffer();
+	void DoubleBuffer(CDC* pdc);
 	void DrawPoint(CGroup4Doc* pdoc,CDC* pdc,CPoint pEnd);
 	void DrawLine(CGroup4Doc* pdoc,CDC* pdc,CPoint pStart,CPoint pEnd);
 	void DrawTriangle(CGroup4Doc* pdoc,CDC* pdc,CPoint pStart,CPoint pEnd);
@@ -69,6 +70,7 @@ protected:
 // Generated message map functions
 protected:
 	//{{AFX_MSG(CGroup4View)
+	afx_msg void OnChoosedig();
 	afx_msg void Onmakepoint();
 	afx_msg void Onmakeline();
 	afx_msg void OnClear();

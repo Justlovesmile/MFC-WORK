@@ -16,7 +16,7 @@ static char THIS_FILE[] = __FILE__;
 
 bool cclick;
 int dstyle=0;
-bool pclick=false;
+CString tt="0";
 /////////////////////////////////////////////////////////////////////////////
 // CGroup4View
 
@@ -53,7 +53,8 @@ BEGIN_MESSAGE_MAP(CGroup4View, CView)
 	ON_COMMAND(IDD_TCounterclockwise, OnTCounterclockwise)
 	ON_COMMAND(IDD_Tclockwise, OnTclockwise)
 	ON_COMMAND(IDD_TBig, OnTBig)
-	ON_COMMAND(IDD_TSmall, OnTSmall)
+	ON_COMMAND(IDD_TSmall, OnTSmall)	
+	ON_COMMAND(IDD_Choose, OnChoosedig)
 	//}}AFX_MSG_MAP
 	// Standard printing commands
 	ON_COMMAND(ID_FILE_PRINT, CView::OnFilePrint)
@@ -92,14 +93,12 @@ void CGroup4View::OnDraw(CDC* pDC)
 	pDoc->type=PS_SOLID;
 	CRect rect;
 	GetClientRect(&rect);
-	//DoubleBuffer();
+	//DoubleBuffer(pDC);
 	//自定义
-	if(!pclick){
 	pDC->SetMapMode(MM_ANISOTROPIC);//设置映射模式
 	pDC->SetWindowExt(rect.Width(),rect.Height());//设置窗口
 	pDC->SetViewportExt(rect.Width(),-rect.Height());//设置视区:x轴水平向右，y轴垂直向上
 	pDC->SetViewportOrg(rect.Width()/2,rect.Height()/2);//客户区中心为坐标系原点
-	}
 	P2.x=rect.Width()/2;
 	P2.y=rect.Height()/2;
 	ReleaseDC(pDC);
@@ -150,9 +149,8 @@ CGroup4Doc* CGroup4View::GetDocument() // non-debug version is inline
 // CGroup4View message handlers
 
 //双缓冲
-void CGroup4View::DoubleBuffer()
+void CGroup4View::DoubleBuffer(CDC* pDC)
 {
-	CDC* pDC=GetDC();
 	CRect rect;//定义客户区矩形
 	GetClientRect(&rect);//获得客户区的大小
 	pDC->SetMapMode(MM_ANISOTROPIC);//pDC自定义坐标系
@@ -254,7 +252,6 @@ void CGroup4View::ReDrawObject(CDC* pdc)
 	pdoc->thickness=th;
 	dstyle=ds;
 	cclick=false;
-	pclick=false;
 }
 
 //回退
@@ -788,20 +785,25 @@ void CGroup4View::OnTdown()
         return;
     ListPoint g;
 	int Lcount;
-    POSITION pos = pdoc->Mylist.GetHeadPosition();
     Lcount=pdoc -> Mylist.GetCount();
+	int n;
+	sscanf(tt,"%d",&n);
+	for(int j=0;j<=n*50+1;j++){
+	POSITION pos = pdoc->Mylist.GetHeadPosition();
 	for(int i = 0; i<Lcount; i++)
-    {
+	{
         g = pdoc -> Mylist.GetNext(pos);
 		P[0].x=g.pStart.x;P[0].y=g.pStart.y;
 		P[1].x=g.pEnd.x;P[1].y=g.pEnd.y;
-		trans.Translate(0,10);
+		trans.Translate(0,5);
 		g.pStart.x=P[0].x;g.pStart.y=P[0].y;
 		g.pEnd.x=P[1].x;g.pEnd.y=P[1].y;
 		pdoc->Mylist.RemoveHead();
 		pdoc->Mylist.AddTail(g);
 	}
 	ReDrawObject(pdc);
+	Sleep(20);
+	}
 	ReleaseDC(pdc);
 }
 
@@ -814,20 +816,25 @@ void CGroup4View::OnTleft()
         return;
     ListPoint g;
 	int Lcount;
-    POSITION pos = pdoc->Mylist.GetHeadPosition();
     Lcount=pdoc -> Mylist.GetCount();
+	int n;
+	sscanf(tt,"%d",&n);
+	for(int j=0;j<=n*50+1;j++){
+	POSITION pos = pdoc->Mylist.GetHeadPosition();
 	for(int i = 0; i<Lcount; i++)
     {
         g = pdoc -> Mylist.GetNext(pos);
 		P[0].x=g.pStart.x;P[0].y=g.pStart.y;
 		P[1].x=g.pEnd.x;P[1].y=g.pEnd.y;
-		trans.Translate(-10,0);
+		trans.Translate(-5,0);
 		g.pStart.x=P[0].x;g.pStart.y=P[0].y;
 		g.pEnd.x=P[1].x;g.pEnd.y=P[1].y;
 		pdoc->Mylist.RemoveHead();
 		pdoc->Mylist.AddTail(g);
 	}
 	ReDrawObject(pdc);
+	Sleep(20);
+	}
 	ReleaseDC(pdc);
 }
 
@@ -840,20 +847,25 @@ void CGroup4View::OnTright()
         return;
     ListPoint g;
 	int Lcount;
-    POSITION pos = pdoc->Mylist.GetHeadPosition();
     Lcount=pdoc -> Mylist.GetCount();
+	int n;
+	sscanf(tt,"%d",&n);
+	for(int j=0;j<=n*50+1;j++){
+	POSITION pos = pdoc->Mylist.GetHeadPosition();
 	for(int i = 0; i<Lcount; i++)
     {
         g = pdoc -> Mylist.GetNext(pos);
 		P[0].x=g.pStart.x;P[0].y=g.pStart.y;
 		P[1].x=g.pEnd.x;P[1].y=g.pEnd.y;
-		trans.Translate(10,0);
+		trans.Translate(5,0);
 		g.pStart.x=P[0].x;g.pStart.y=P[0].y;
 		g.pEnd.x=P[1].x;g.pEnd.y=P[1].y;
 		pdoc->Mylist.RemoveHead();
 		pdoc->Mylist.AddTail(g);
 	}
 	ReDrawObject(pdc);
+	Sleep(20);
+	}
 	ReleaseDC(pdc);
 }
 
@@ -866,20 +878,25 @@ void CGroup4View::OnTup()
         return;
     ListPoint g;
 	int Lcount;
-    POSITION pos = pdoc->Mylist.GetHeadPosition();
     Lcount=pdoc -> Mylist.GetCount();
+	int n;
+	sscanf(tt,"%d",&n);
+	for(int j=0;j<=n*50+1;j++){
+	POSITION pos = pdoc->Mylist.GetHeadPosition();
 	for(int i = 0; i<Lcount; i++)
     {
         g = pdoc -> Mylist.GetNext(pos);
 		P[0].x=g.pStart.x;P[0].y=g.pStart.y;
 		P[1].x=g.pEnd.x;P[1].y=g.pEnd.y;
-		trans.Translate(0,-10);
+		trans.Translate(0,-5);
 		g.pStart.x=P[0].x;g.pStart.y=P[0].y;
 		g.pEnd.x=P[1].x;g.pEnd.y=P[1].y;
 		pdoc->Mylist.RemoveHead();
 		pdoc->Mylist.AddTail(g);
 	}
 	ReDrawObject(pdc);
+	Sleep(20);
+	}
 	ReleaseDC(pdc);
 }
 
@@ -1023,4 +1040,11 @@ void CGroup4View::OnTSmall()
 		ReDrawObject(pdc);
 	}
 	ReleaseDC(pdc);
+}
+
+void CGroup4View::OnChoosedig()
+{
+	Cchoosedig Dlg;
+	Dlg.DoModal();
+	tt=Dlg.mtime;
 }

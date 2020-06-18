@@ -2,22 +2,27 @@
 
 [General Info]
 Version=1
-LastClass=CGroup4View
+LastClass=Cchoosedig
 LastTemplate=CDialog
 NewFileInclude1=#include "stdafx.h"
 NewFileInclude2=#include "Group4.h"
 LastPage=0
 
-ClassCount=5
+ClassCount=9
 Class1=CGroup4App
 Class2=CGroup4Doc
 Class3=CGroup4View
 Class4=CMainFrame
 
-ResourceCount=2
+ResourceCount=3
 Resource1=IDD_ABOUTBOX
 Class5=CAboutDlg
+Class6=movetype
+Class7=IDD_Diymove
+Class8=Mydiymove
 Resource2=IDR_MAINFRAME
+Class9=Cchoosedig
+Resource3=IDD_Choose
 
 [CLS:CGroup4App]
 Type=0
@@ -38,7 +43,7 @@ ImplementationFile=Group4View.cpp
 Filter=C
 BaseClass=CView
 VirtualFilter=VWC
-LastObject=IDD_TSmall
+LastObject=IDD_play
 
 
 [CLS:CMainFrame]
@@ -144,5 +149,50 @@ Command24=IDD_TCounterclockwise
 Command25=IDD_Tclockwise
 Command26=IDD_TBig
 Command27=IDD_TSmall
-CommandCount=27
+Command28=IDD_Choose
+CommandCount=28
+
+[CLS:movetype]
+Type=0
+HeaderFile=movetype.h
+ImplementationFile=movetype.cpp
+BaseClass=CDialog
+Filter=D
+LastObject=ID_APP_ABOUT
+VirtualFilter=dWC
+
+[CLS:IDD_Diymove]
+Type=0
+HeaderFile=IDD_Diymove.h
+ImplementationFile=IDD_Diymove.cpp
+BaseClass=CDialog
+Filter=D
+LastObject=ID_APP_ABOUT
+
+[CLS:Mydiymove]
+Type=0
+HeaderFile=Mydiymove.h
+ImplementationFile=Mydiymove.cpp
+BaseClass=CDialog
+Filter=D
+LastObject=ID_APP_ABOUT
+VirtualFilter=dWC
+
+[DLG:IDD_Choose]
+Type=1
+Class=Cchoosedig
+ControlCount=4
+Control1=IDOK,button,1342242817
+Control2=IDCANCEL,button,1342242816
+Control3=IDC_STATIC,static,1342308352
+Control4=IDC_time,edit,1350639744
+
+[CLS:Cchoosedig]
+Type=0
+HeaderFile=choosedig.h
+ImplementationFile=choosedig.cpp
+BaseClass=CDialog
+Filter=D
+LastObject=IDC_COMBO1
+VirtualFilter=dWC
 
