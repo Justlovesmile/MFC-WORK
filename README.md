@@ -2,7 +2,7 @@
 HEU Computer Graphics Big Homework
 
 # 报告
-[https://justlovesmile.top/2020/06/19/基于MFC和二维变换的画图软件/](https://justlovesmile.top/2020/06/19/基于MFC和二维变换的画图软件/)
+[https://blog.justlovesmile.top/posts/16593.html](https://blog.justlovesmile.top/posts/16593.html)
 
 # 效果
 ![](https://cdn.jsdelivr.net/gh/Justlovesmile/CDN2/post/20200619203701.png)
